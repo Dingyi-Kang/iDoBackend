@@ -24,15 +24,8 @@ public class User {
 	@NotNull
 	private String password;
 
-	
-	@ManyToMany
-	@JoinTable(
-			name = "user_has_task",
-			joinColumns = @JoinColumn(name = "User_ID"),
-			inverseJoinColumns = @JoinColumn(name = "Task_ID")
-			)
-	//@OneToMany(mappedBy = "assignedToUser", cascade = CascadeType.ALL)
-	Set<Task> hasTasks;
+	@OneToMany(mappedBy = "assignedToUser", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Task> hasTasks;
 	
 	@OneToMany(mappedBy = "ownerOfTaskGroup", cascade = CascadeType.ALL)
 	Set<TaskGroup> taskGroups;
@@ -86,15 +79,5 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
-	public Set<Task> getAllTasks() {
-		return hasTasks;
-	}
-	public void setAllTasks(Set<Task> hasTasks) {
-		this.hasTasks = hasTasks;
-	}
-
-	
 	
 }

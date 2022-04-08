@@ -3,7 +3,7 @@ package com.dkang.iDoServer.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dkang.iDoServer.model.Task;
+
 import com.dkang.iDoServer.model.User;
+
 import com.dkang.iDoServer.repo.UserRepo;
 
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -81,33 +82,5 @@ public class UserController {
 
 	}
 	
-	@PutMapping("/user/{id}/addtodo")
-	public Optional<User> updateTaskOfUser(@RequestBody Task task, @PathVariable String id) {
-		Optional<User> u = repo.findByUserName(id);
-		if (u.isEmpty()) {
-				return null;
-		} else {
-			User u2 = u.orElse(null);
-			// u2.setUserName(user.getUserName());
-			u2.getAllTasks().add(task);
-			repo.save(u2);
-			return Optional.of(u2);
-		}
-	}
-	
-	@GetMapping("/user/{id}/todos")
-	public Set<Task> getAllUsers(@PathVariable String id) {
-		
-		Optional<User> u = repo.findByUserName(id);
-		if (u.isEmpty()) {
-				return null;
-		} else {
-			User u2 = u.orElse(null);
-			// u2.setUserName(user.getUserName());
-			return u2.getAllTasks();
-		}
-	}
-	
-	//when to delete a task
 
 }
