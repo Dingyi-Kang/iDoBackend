@@ -27,7 +27,7 @@ public class User {
 	@OneToMany(mappedBy = "assignedToUser", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Task> hasTasks;
 	
-	@OneToMany(mappedBy = "ownerOfTaskGroup", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "ownerOfTaskGroup", cascade = CascadeType.ALL, orphanRemoval = true)
 	Set<TaskGroup> taskGroups;
 	
 	@OneToMany(mappedBy = "ownerOfSavedLocations", cascade = CascadeType.ALL)
@@ -35,11 +35,7 @@ public class User {
 	
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	Set<UserGroupColor> isMemberOfGroups;
-	
-//	@OneToMany(mappedBy = "taskOfUserInGroup", cascade = CascadeType.ALL)
-//	Set<OneTaskInUserTaskGroup> isInTaskGroupsOfUser;
-	
-	
+
 	@ManyToMany(mappedBy = "isFriendOfUsers")
 	Set<User> hasFriends;
 	

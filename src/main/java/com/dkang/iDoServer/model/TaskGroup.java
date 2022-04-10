@@ -1,40 +1,70 @@
 package com.dkang.iDoServer.model;
-import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class TaskGroup implements Serializable {
-	private static final long serialVersionUID = 1L;
-
-	//composite primary key
+public class TaskGroup{
+	
+	//primary key
 	@Id
+	@Column(name = "TaskGroup_ID")
+	@GeneratedValue
+	private int groupID;
+	
+	@NotNull
 	@Column(name = "Task_Group_Name")
 	private String taskGroupName;
 	
-//	This won't work. cannot build a connect between this one and the foreigh key
-//	@Id
-//	@Column(name = "Owner_ID")
-//	private int userID;
-	
 	@NotNull
-	@Column(unique=true)
+	@Column()
 	private String taskGroupColor;
 	
-	@Id
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name = "Owner_ID", referencedColumnName = "User_ID")
+	@JoinColumn(name = "Owner_ID", referencedColumnName = "User_ID")
 	User ownerOfTaskGroup;
+		
+	@OneToMany(mappedBy = "assignedToTaskGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Task> hasTasks;
 	
-	@OneToMany(mappedBy = "groupOfATaskOfAUser", cascade = CascadeType.ALL)
-	Set<OneTaskInUserTaskGroup> tasksOfUser;
+	public int getGroupID() {
+		return groupID;
+	}
+
+	public void setGroupID(int groupID) {
+		this.groupID = groupID;
+	}
+
+	public String getTaskGroupName() {
+		return taskGroupName;
+	}
+
+	public void setTaskGroupName(String taskGroupName) {
+		this.taskGroupName = taskGroupName;
+	}
+
+	public String getTaskGroupColor() {
+		return taskGroupColor;
+	}
+
+	public void setTaskGroupColor(String taskGroupColor) {
+		this.taskGroupColor = taskGroupColor;
+	}
+
+	public User getOwnerOfTaskGroup() {
+		return ownerOfTaskGroup;
+	}
+
+	public void setOwnerOfTaskGroup(User ownerOfTaskGroup) {
+		this.ownerOfTaskGroup = ownerOfTaskGroup;
+	}
 	
 }

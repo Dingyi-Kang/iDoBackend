@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dkang.iDoServer.model.Task;
+import com.dkang.iDoServer.model.TaskGroup;
 import com.dkang.iDoServer.model.User;
+import com.dkang.iDoServer.repo.TaskGroupRepo;
 import com.dkang.iDoServer.repo.TaskRepo;
 import com.dkang.iDoServer.repo.UserRepo;
 
@@ -28,6 +30,9 @@ public class TaskController {
 	
 	@Autowired
 	private UserRepo userRepo;
+	
+	@Autowired
+	private TaskGroupRepo groupRepo;
 	
 	//RequestBody is needed, or cannot sent data in request. all parameters will be null
 	@PostMapping("/todo")
@@ -68,24 +73,49 @@ public class TaskController {
 	
 	
 	@PostMapping("/todo/{uid}")
-	public Optional<Task> updateTaskOfUser(@RequestBody Task task, @PathVariable String uid) {
+	public Optional<Task> saveUpdateTaskOfUser(@RequestBody Task task, @PathVariable String uid) {
 		Optional<User> u = userRepo.findByUserName(uid);
 		if (u.isEmpty()) {
 				return null;
 		} else {
 			User u2 = u.orElse(null);
-			// u2.setUserName(user.getUserName());
-			//taskRepo.save(task);
 			task.setAssignedToUser(u2);
 			repo.save(task);
 			return Optional.of(task);
 		}
 	}
 	
-	
 	@GetMapping("/todos/{uid}")
-	public Set<Task> getAllUsers(@PathVariable String uid) {
+	public Set<Task> getAllTasksOfUser(@PathVariable String uid) {
 		return repo.findAllTasksOfUser(uid);
 	}
+	
+	@PostMapping("/todo/{uid}/{gid}")
+	public Optional<Task> saveUpdateTaskToUserGroup(@RequestBody Task task, @PathVariable String uid, @PathVariable Integer gid) {
+		Optional<User> u = userRepo.findByUserName(uid);
+		if (u.isEmpty()) {
+				return null;
+		} else {
+			
+			Optional<TaskGroup> g = groupRepo.findById(gid);
+			
+			if (g.isEmpty()) {
+				return null;
+			}else {
+				User u2 = u.orElse(null);
+				TaskGroup g2 = g.orElse(null);
+				task.setAssignedToUser(u2);
+				task.setAssignedToTaskGroup(g2);
+				repo.save(task);
+				return Optional.of(task);
+			}
+		}
+	}
+	
+	@GetMapping("/todos/{uid}/{gid}")
+	public Set<Task> getAllTasksOfUserInATaskGroup(@PathVariable String uid, @PathVariable Integer gid) {
+		return repo.findAllTasksOfUserInAGroup(uid, gid);
+	}
+	
 	
 }

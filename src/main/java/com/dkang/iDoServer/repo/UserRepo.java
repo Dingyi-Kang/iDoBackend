@@ -7,9 +7,7 @@ import com.dkang.iDoServer.model.User;
 
 //relative to crudRepo, Jpa implement it and further write and read data in JSON format 
 public interface UserRepo extends JpaRepository<User, String>{
-
-	//create custom query here
-	//??? will this below work?
+	//this below work!
 	Optional<User> findByUserName(String name);
 	
 }
