@@ -32,7 +32,7 @@ public class TaskGroup{
 	@JoinColumn(name = "Owner_ID", referencedColumnName = "User_ID")
 	User ownerOfTaskGroup;
 		
-	@OneToMany(mappedBy = "assignedToTaskGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "assignedToTaskGroup", cascade = CascadeType.ALL)
 	private Set<Task> hasTasks;
 	
 	public int getGroupID() {

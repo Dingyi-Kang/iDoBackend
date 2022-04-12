@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-
 import com.dkang.iDoServer.model.User;
 
 import com.dkang.iDoServer.repo.UserRepo;
@@ -79,8 +76,64 @@ public class UserController {
 			repo.save(u2);
 			return Optional.of(u2);
 		}
-
 	}
+	
+	@GetMapping("/{uid}/friends")
+	public List<User> getAllFriendsOfUser(@PathVariable String uid) {
+		return repo.getAllFriendOfUser(uid);
+	}
+	
+	//set user' friends
+//	@GetMapping("/{id}/friends")
+//	public Optional<Set<User>> getUserFriends(@PathVariable String id) {
+//		Optional<User> u = repo.findByUserName(id);
+//		if (u.isEmpty()) {
+//			return null;
+//	} else {
+//		User u2 = u.orElse(null);
+//		return Optional.of(u2.getIsFriendOfUsers());
+//	}
+//	}
+	
+	
+//	@PostMapping("{uid}/friend/{fid}")
+//	public Optional<User> addFriend(@PathVariable String uid, @PathVariable String fid) {
+//		
+//		Optional<User> user = repo.findByUserName(uid);
+//		Optional<User> friend = repo.findByUserName(fid);
+//		
+//		if (user.isEmpty()||friend.isEmpty()) {
+//			return null;
+//		}else {
+//			User user2 = user.orElse(null);
+//			User friend2 = friend.orElse(null);
+//			user2.getIsFriendOfUsers().add(friend2);
+//			//friend2.getHasFriends().add(user2);
+//			repo.save(user2);
+//			//repo.save(friend2);
+//			return Optional.of(user2);	
+//		}
+//	}
+	
+//	@DeleteMapping("{uid}/friend/{fid}")
+//	public Optional<User> deleteFriend(@PathVariable String uid, @PathVariable String fid) {
+//		
+//		Optional<User> user = repo.findByUserName(uid);
+//		Optional<User> friend = repo.findByUserName(fid);
+//		
+//		if (user.isEmpty()||friend.isEmpty()) {
+//			return null;
+//		}else {
+//			User user2 = user.orElse(null);
+//			User friend2 = friend.orElse(null);
+//			user2.getIsFriendOfUsers().remove(friend2);
+//			//friend2.getHasFriends().remove(user2);
+//			repo.save(user2);
+//			//repo.save(friend2);
+//			return Optional.of(user2);
+//			
+//		}
+//	}
 	
 
 }

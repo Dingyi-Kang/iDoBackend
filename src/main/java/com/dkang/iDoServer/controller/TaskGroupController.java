@@ -33,13 +33,13 @@ public class TaskGroupController {
 	}
 	
 	@PostMapping("/group")
-	public TaskGroup addTask(@RequestBody TaskGroup taskGroup) {
+	public TaskGroup addTaskGroup(@RequestBody TaskGroup taskGroup) {
 		repo.save(taskGroup);
 		return taskGroup;
 	}
 	
 	@DeleteMapping("/group/{id}")
-	public String deleteTask(@PathVariable int id) {
+	public String deleteTaskGroup(@PathVariable int id) {
 		Optional<TaskGroup> g = repo.findById(id);
 		if (g.isEmpty()) {
 			return "Deletion failed. No such record.";

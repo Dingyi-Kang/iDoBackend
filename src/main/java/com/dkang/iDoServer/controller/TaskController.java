@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dkang.iDoServer.model.FriendPushTasks;
 import com.dkang.iDoServer.model.Task;
 import com.dkang.iDoServer.model.TaskGroup;
 import com.dkang.iDoServer.model.User;
+import com.dkang.iDoServer.repo.FriendPushTasksRepo;
 import com.dkang.iDoServer.repo.TaskGroupRepo;
 import com.dkang.iDoServer.repo.TaskRepo;
 import com.dkang.iDoServer.repo.UserRepo;
@@ -33,6 +35,9 @@ public class TaskController {
 	
 	@Autowired
 	private TaskGroupRepo groupRepo;
+	
+	@Autowired
+	private FriendPushTasksRepo fptRepo;
 	
 	//RequestBody is needed, or cannot sent data in request. all parameters will be null
 	@PostMapping("/todo")
@@ -71,7 +76,7 @@ public class TaskController {
 		return task;
 	}
 	
-	
+	//basic - post
 	@PostMapping("/todo/{uid}")
 	public Optional<Task> saveUpdateTaskOfUser(@RequestBody Task task, @PathVariable String uid) {
 		Optional<User> u = userRepo.findByUserName(uid);
@@ -89,7 +94,7 @@ public class TaskController {
 	public Set<Task> getAllTasksOfUser(@PathVariable String uid) {
 		return repo.findAllTasksOfUser(uid);
 	}
-	
+	//including add and update(changing content and switch group)
 	@PostMapping("/todo/{uid}/{gid}")
 	public Optional<Task> saveUpdateTaskToUserGroup(@RequestBody Task task, @PathVariable String uid, @PathVariable Integer gid) {
 		Optional<User> u = userRepo.findByUserName(uid);
@@ -117,5 +122,25 @@ public class TaskController {
 		return repo.findAllTasksOfUserInAGroup(uid, gid);
 	}
 	
+	//function -- adding task to FriendPushTaskRealtionship table
+	//getting -- switch parameters for getting received friend push tasks
+	@GetMapping("/pushTaskToFriend/{uid}/{fid}")
+	public List<Task> getFriendTasksPushedByUser(@PathVariable String uid, @PathVariable String fid) {
+		return repo.getFriendTasksPushedByUser(uid, fid);
+	}
+	//including add and update
+	@PostMapping("/pushTaskToFriend/{uid}/{fid}")
+	public Optional<Task> pushTaskToFriend(@RequestBody Task task, @PathVariable String uid, @PathVariable  String fid) {
+		Optional<FriendPushTasks> u = fptRepo.getTheFriendPushRelation(fid, uid);
+		if (u.isEmpty()) {
+				return null;
+		} else {
+				FriendPushTasks u2 = u.orElse(null);
+				task.setAssignedToFriendPushTasks(u2);
+				repo.save(task);
+				return Optional.of(task);
+			
+		}
+	}
 	
 }

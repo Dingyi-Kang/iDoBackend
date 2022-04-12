@@ -6,9 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -36,16 +33,13 @@ public class User {
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	Set<UserGroupColor> isMemberOfGroups;
 
-	@ManyToMany(mappedBy = "isFriendOfUsers")
-	Set<User> hasFriends;
 	
-	@ManyToMany
-	@JoinTable(
-			name = "user_has_friend",
-			joinColumns = @JoinColumn(name = "User_ID", referencedColumnName = "User_ID"),
-			inverseJoinColumns = @JoinColumn(name = "Friend_ID", referencedColumnName = "User_ID")
-			)
-	Set<User> isFriendOfUsers;
+	@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+	Set<FriendPushTasks> friendPushTaskRelationshipsAsSender;
+	
+	@OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+	Set<FriendPushTasks> friendPushTaskRelationshipsAsReceiver;
+	
 	
 	@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
 	Set<FriendInvitation> hasSentFriendInvitations;

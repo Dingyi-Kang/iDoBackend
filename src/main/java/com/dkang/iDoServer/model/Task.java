@@ -39,6 +39,10 @@ public class Task {
 	@JoinColumn(name = "TaskGroup_ID")
     TaskGroup assignedToTaskGroup;
 		
+	@ManyToOne
+	@JoinColumn(name = "Relationship_ID")
+    FriendPushTasks assignedToFriendPushTasks;
+	
 	@ManyToMany(mappedBy = "hasTasks")
 	Set<UserGroup> isInUserGroups;
 	
@@ -73,7 +77,6 @@ public class Task {
 		this.completed = completed;
 	}
 	
-	
 	public User getAssignedToUser() {
 		return assignedToUser;
 	}
@@ -87,5 +90,12 @@ public class Task {
 	public void setAssignedToTaskGroup(TaskGroup assignedToTaskGroup) {
 		this.assignedToTaskGroup = assignedToTaskGroup;
 	}
+	public FriendPushTasks getAssignedToFriendPushTasks() {
+		return assignedToFriendPushTasks;
+	}
+	public void setAssignedToFriendPushTasks(FriendPushTasks assignedToFriendPushTasks) {
+		this.assignedToFriendPushTasks = assignedToFriendPushTasks;
+	}
+
 	
 }
