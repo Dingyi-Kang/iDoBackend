@@ -1,14 +1,10 @@
 package com.dkang.iDoServer.model;
-
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-//import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -43,8 +39,9 @@ public class Task {
 	@JoinColumn(name = "Relationship_ID")
     FriendPushTasks assignedToFriendPushTasks;
 	
-	@ManyToMany(mappedBy = "hasTasks")
-	Set<UserGroup> isInUserGroups;
+	@ManyToOne
+	@JoinColumn(name = "Team_Relationship_ID")
+    UserTeamRelation assignedToUserTeamRelation;
 	
 	public int getTaskID() {
 		return taskID;

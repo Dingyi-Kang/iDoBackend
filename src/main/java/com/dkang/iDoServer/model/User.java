@@ -27,13 +27,6 @@ public class User {
 	@OneToMany(mappedBy = "ownerOfTaskGroup", cascade = CascadeType.ALL, orphanRemoval = true)
 	Set<TaskGroup> taskGroups;
 	
-	@OneToMany(mappedBy = "ownerOfSavedLocations", cascade = CascadeType.ALL)
-	Set<UserSavedLocations> savedLocations;
-	
-	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-	Set<UserGroupColor> isMemberOfGroups;
-
-	
 	@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
 	Set<FriendPushTasks> friendPushTaskRelationshipsAsSender;
 	
@@ -47,9 +40,18 @@ public class User {
 	@OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
 	Set<FriendInvitation> hasReceivedFriendInvitations;
 	
-	@OneToMany(mappedBy = "receiverOfGroupInvitation", cascade = CascadeType.ALL)
-	Set<GroupInvitation> hasReceivedGroupInvitations;
+	@OneToMany(mappedBy = "receiverOfTeamInvitation", cascade = CascadeType.ALL)
+	Set<TeamInvitation> hasReceivedTeamInvitations;
 	
+	@OneToMany(mappedBy = "senderOfTeamInvitation", cascade = CascadeType.ALL)
+	Set<TeamInvitation> hasSentTeamInvitations;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	Set<UserTeamRelation> isMemberOfTeams;
+	
+	@OneToMany(mappedBy = "ownerOfSavedLocations", cascade = CascadeType.ALL)
+	Set<UserSavedLocations> savedLocations;
+
 	
 	public String getUserName() {
 		return userName;
