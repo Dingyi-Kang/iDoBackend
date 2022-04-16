@@ -82,58 +82,10 @@ public class UserController {
 	public List<User> getAllFriendsOfUser(@PathVariable String uid) {
 		return repo.getAllFriendOfUser(uid);
 	}
-	
-	//set user' friends
-//	@GetMapping("/{id}/friends")
-//	public Optional<Set<User>> getUserFriends(@PathVariable String id) {
-//		Optional<User> u = repo.findByUserName(id);
-//		if (u.isEmpty()) {
-//			return null;
-//	} else {
-//		User u2 = u.orElse(null);
-//		return Optional.of(u2.getIsFriendOfUsers());
-//	}
-//	}
-	
-	
-//	@PostMapping("{uid}/friend/{fid}")
-//	public Optional<User> addFriend(@PathVariable String uid, @PathVariable String fid) {
-//		
-//		Optional<User> user = repo.findByUserName(uid);
-//		Optional<User> friend = repo.findByUserName(fid);
-//		
-//		if (user.isEmpty()||friend.isEmpty()) {
-//			return null;
-//		}else {
-//			User user2 = user.orElse(null);
-//			User friend2 = friend.orElse(null);
-//			user2.getIsFriendOfUsers().add(friend2);
-//			//friend2.getHasFriends().add(user2);
-//			repo.save(user2);
-//			//repo.save(friend2);
-//			return Optional.of(user2);	
-//		}
-//	}
-	
-//	@DeleteMapping("{uid}/friend/{fid}")
-//	public Optional<User> deleteFriend(@PathVariable String uid, @PathVariable String fid) {
-//		
-//		Optional<User> user = repo.findByUserName(uid);
-//		Optional<User> friend = repo.findByUserName(fid);
-//		
-//		if (user.isEmpty()||friend.isEmpty()) {
-//			return null;
-//		}else {
-//			User user2 = user.orElse(null);
-//			User friend2 = friend.orElse(null);
-//			user2.getIsFriendOfUsers().remove(friend2);
-//			//friend2.getHasFriends().remove(user2);
-//			repo.save(user2);
-//			//repo.save(friend2);
-//			return Optional.of(user2);
-//			
-//		}
-//	}
-	
+		
 
+	@GetMapping("/{tid}/members")
+	public List<User> getAllTeamMembers(@PathVariable String tid) {
+		return repo.getAllTeamMembers(tid);
+	}
 }

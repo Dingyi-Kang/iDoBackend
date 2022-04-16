@@ -42,8 +42,6 @@ public class FriendInvitationController {
 	@PostMapping("/fiv/{sid}/{rid}")
 	public Optional<FriendInvitation> addFriendInviation(@PathVariable String sid, @PathVariable String rid) {
 		
-		
-		
 		Optional<User> sender = userRepo.findByUserName(sid);
 		Optional<User> receiver = userRepo.findByUserName(rid);
 		

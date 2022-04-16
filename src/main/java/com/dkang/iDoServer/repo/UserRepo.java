@@ -18,4 +18,7 @@ public interface UserRepo extends JpaRepository<User, String>{
 	@Query(value="SELECT * FROM User as u Where u.user_id IN (Select receiver_id From Friend_Push_Tasks Where sender_id = :uid)", nativeQuery=true)
 	List<User> getAllFriendOfUser(@Param("uid") @PathVariable String uid);
 	
+	@Query(value="SELECT * FROM User u Join User_Team_Relation r ON u.user_id = r.user_id Where r.team_id = :tid", nativeQuery=true)
+	List<User> getAllTeamMembers(@Param("tid") @PathVariable String tid);
+	
 }
