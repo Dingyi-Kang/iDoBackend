@@ -11,10 +11,9 @@ import org.hibernate.annotations.Subselect;
 
 @Entity
 @Immutable
-@Table(name="CCTT")
-//@Subselect("SELECT r.team_id as teamID, r.user_id as userName, Count(t.task_id) as count FROM Task t JOIN User_team_relation r ON t.team_relationship_id = r.relationship_id Group by r.team_id, r.user_id")
-@Subselect("select s.teamID as team_ID, s.userName as user_name, s.count as count from cctt s")
-public class CCTT implements Serializable  {
+@Table(name="Report")
+@Subselect("select s.teamID as team_ID, s.userName as user_name, s.countOfCompletedTasks as ccount, s.countOfUncompletedTasks as ucount from Report s")
+public class Report implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -25,7 +24,10 @@ public class CCTT implements Serializable  {
     String user_name;
 	
 	@Column
-    Integer count=0;
+    Integer ccount;
+	
+	@Column
+    Integer ucount;
 	
 	
 }

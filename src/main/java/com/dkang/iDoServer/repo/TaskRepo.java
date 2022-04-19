@@ -21,7 +21,11 @@ public interface TaskRepo extends JpaRepository<Task, Integer>{
 	@Query(value="SELECT * FROM Task as t Where t.relationship_id = (Select relationship_id From Friend_Push_Tasks Where sender_id = :uid AND receiver_id = :fid)", nativeQuery=true)
 	List<Task> getFriendTasksPushedByUser(@Param("uid") @PathVariable String uid, @Param("fid") @PathVariable String fid);
 	
-//	@Query(value="SELECT * FROM Task as t Where t.relationship_id = (Select relationship_id From Friend_Push_Tasks Where sender_id = :fid AND receiver_id = :uid)", nativeQuery=true)
+	
+	@Query(value="SELECT * FROM Task as t Where t.team_relationship_id = (Select relationship_id From User_Team_Relation Where user_id = :uid AND team_id = :tid)", nativeQuery=true)
+	List<Task> getAllTasksOfUserInTeam(@Param("uid") @PathVariable String uid, @Param("tid") @PathVariable String tid);
+
+	//	@Query(value="SELECT * FROM Task as t Where t.relationship_id = (Select relationship_id From Friend_Push_Tasks Where sender_id = :fid AND receiver_id = :uid)", nativeQuery=true)
 //	List<Task> getFriendTasksReceivededByUser(@Param("uid") @PathVariable String uid);
 
 }

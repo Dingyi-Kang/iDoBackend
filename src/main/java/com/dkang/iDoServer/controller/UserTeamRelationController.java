@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dkang.iDoServer.model.Team;
@@ -81,21 +82,21 @@ public class UserTeamRelationController {
 	}
 	
 	//for update admin status
-//	@PostMapping("/UserTeamR/admin/{uid}/{tid}")
-//	public UserTeamRelation updateUserTeamRelationAsAdmin(@PathVariable String uid,
-//			@PathVariable String tid) {
-//		Optional<UserTeamRelation> g = repo.getTheUserTeamRelation(uid, tid);
-//		if (g.isEmpty()) {
-//			return null;	
-//		}
-//		else {
-//			UserTeamRelation g2 = g.orElse(null);	
-//			g2.setAdminStatus(true);
-//			repo.save(g2);
-//			return g2;
-//		}
-//		
-//	}
+	@PutMapping("/UserTeamR/asveAdmin/{uid}/{tid}")
+	public UserTeamRelation updateUserTeamRelationAsAdmin(@PathVariable String uid,
+			@PathVariable String tid) {
+		Optional<UserTeamRelation> g = repo.getUserTeamRelation(uid, tid);
+		if (g.isEmpty()) {
+			return null;	
+		}
+		else {
+			UserTeamRelation g2 = g.orElse(null);	
+			g2.setAdminStatus(true);
+			repo.save(g2);
+			return g2;
+		}
+		
+	}
 	
 	@GetMapping("/UserTeamR/{uid}/{tid}")
 	public Optional<UserTeamRelation> getFriendPushTaskRelation(@PathVariable String uid, @PathVariable String tid) {
@@ -115,6 +116,10 @@ public class UserTeamRelationController {
 		}
 	}
 	
+	@GetMapping("/UserTeamR/allRelations/{tid}")
+	public List<UserTeamRelation> getUserTeamRelationOfATeam(@PathVariable String tid) {
+		return repo.getUserTeamRelationOfATeam(tid);
+	}
 	
 	
 
@@ -129,12 +134,43 @@ public class UserTeamRelationController {
 			repo.delete(r2);
 			return "UserTeamRelation is deleted.";
 		}
+	}
+	
+	@DeleteMapping("/UserTeamR/{rid}")
+	public String deleteUserTeamRelationById(@PathVariable Integer rid) {
+		Optional<UserTeamRelation> r = repo.findById(rid);
+		if (r.isEmpty()) {
+			return null;	
+		}
+		else {
+			UserTeamRelation r2 = r.orElse(null);			
+			repo.delete(r2);
+			return "UserTeamRelation is deleted.";
+		}
 
 	}
 	
-	@GetMapping("/UserTeamR/report/{uid}/{tid}")
-	public TeamTaskReport getReport(@PathVariable String uid, @PathVariable String tid) {
-		return repo.getReport(uid, tid);
+	
+	@GetMapping("/UserTeamR/report/complete/{tid}")
+	public List<TeamTaskReport> getReportOfCompletedTasks(@PathVariable String tid) {
+		return repo.getCompletedTasksCountForEachUsersInTeam(tid);
 	}
+	
+	@GetMapping("/UserTeamR/report/uncomplete/{tid}")
+	public List<TeamTaskReport> getReportOfUncompletedTasks(@PathVariable String tid) {
+		return repo.getUncompletedTasksCountForEachUsersInTeam(tid);
+	}
+	
+//	@GetMapping("/UserTeamR/report/{uid}/{tid}")
+//	public TeamTaskReport getReport(@PathVariable String uid, @PathVariable String tid) {
+//		return repo.getReport(uid, tid);
+//	}
+//	
+//	@GetMapping("/UserTeamR/report/{tid}")
+//	public List<TeamTaskReport> getReportOfTeam(@PathVariable String tid) {
+//		return repo.getReportOfTeam(tid);
+//	}
+	
+	
 	
 }

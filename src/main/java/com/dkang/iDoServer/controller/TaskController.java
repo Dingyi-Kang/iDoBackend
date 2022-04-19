@@ -18,10 +18,12 @@ import com.dkang.iDoServer.model.FriendPushTasks;
 import com.dkang.iDoServer.model.Task;
 import com.dkang.iDoServer.model.TaskGroup;
 import com.dkang.iDoServer.model.User;
+import com.dkang.iDoServer.model.UserTeamRelation;
 import com.dkang.iDoServer.repo.FriendPushTasksRepo;
 import com.dkang.iDoServer.repo.TaskGroupRepo;
 import com.dkang.iDoServer.repo.TaskRepo;
 import com.dkang.iDoServer.repo.UserRepo;
+import com.dkang.iDoServer.repo.UserTeamRelationRepo;
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
@@ -38,6 +40,9 @@ public class TaskController {
 	
 	@Autowired
 	private FriendPushTasksRepo fptRepo;
+	
+	@Autowired
+	private UserTeamRelationRepo utrRepo;
 	
 	//RequestBody is needed, or cannot sent data in request. all parameters will be null
 	@PostMapping("/todo")
@@ -137,6 +142,26 @@ public class TaskController {
 		} else {
 				FriendPushTasks u2 = u.orElse(null);
 				task.setAssignedToFriendPushTasks(u2);
+				repo.save(task);
+				return Optional.of(task);
+			
+		}
+	}
+	
+	//post and get from userTeamRelation
+	@GetMapping("/userTeamRelation/{uid}/{tid}")
+	public List<Task> getAllTasksOfUserInTeam(@PathVariable String uid, @PathVariable String tid) {
+		return repo.getAllTasksOfUserInTeam(uid, tid);
+	}
+	//including add and update
+	@PostMapping("/userTeamRelation/{uid}/{tid}")
+	public Optional<Task> pushTaskInTeam(@RequestBody Task task, @PathVariable String uid, @PathVariable  String tid) {
+		Optional<UserTeamRelation> u = utrRepo.getUserTeamRelation(uid, tid);
+		if (u.isEmpty()) {
+				return null;
+		} else {
+			UserTeamRelation u2 = u.orElse(null);
+				task.setAssignedToUserTeamRelation(u2);
 				repo.save(task);
 				return Optional.of(task);
 			

@@ -93,6 +93,12 @@ public class Task {
 	public void setAssignedToFriendPushTasks(FriendPushTasks assignedToFriendPushTasks) {
 		this.assignedToFriendPushTasks = assignedToFriendPushTasks;
 	}
+	public UserTeamRelation getAssignedToUserTeamRelation() {
+		return assignedToUserTeamRelation;
+	}
+	public void setAssignedToUserTeamRelation(UserTeamRelation assignedToUserTeamRelation) {
+		this.assignedToUserTeamRelation = assignedToUserTeamRelation;
+	}
 
 	
 }
