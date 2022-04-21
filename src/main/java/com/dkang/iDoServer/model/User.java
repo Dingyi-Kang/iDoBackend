@@ -49,8 +49,8 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	Set<UserTeamRelation> isMemberOfTeams;
 	
-	@OneToMany(mappedBy = "ownerOfSavedLocations", cascade = CascadeType.ALL)
-	Set<UserSavedLocations> savedLocations;
+	@OneToMany(mappedBy = "ownerOfSavedLocation", cascade = CascadeType.ALL)
+	Set<UserSavedLocation> savedLocations;
 
 	
 	public String getUserName() {

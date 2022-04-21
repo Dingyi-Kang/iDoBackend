@@ -99,6 +99,12 @@ public class TaskController {
 	public Set<Task> getAllTasksOfUser(@PathVariable String uid) {
 		return repo.findAllTasksOfUser(uid);
 	}
+	
+	@GetMapping("/realAllTodos/{uid}")
+	public List<Task> getAllTasksOfUserIncludingFriendsTeams(@PathVariable String uid) {
+		return repo.getAllTasksOfUserIncludingFriendsTeams(uid);
+	}
+	
 	//including add and update(changing content and switch group)
 	@PostMapping("/todo/{uid}/{gid}")
 	public Optional<Task> saveUpdateTaskToUserGroup(@RequestBody Task task, @PathVariable String uid, @PathVariable Integer gid) {
